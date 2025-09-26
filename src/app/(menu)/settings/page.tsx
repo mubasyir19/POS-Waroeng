@@ -83,11 +83,11 @@ export default function SettingsPage() {
   };
 
   return (
-    <div className="p-6">
+    <div className="flex h-screen flex-col p-6">
       <h1 className="font-semibold text-white lg:text-2xl xl:text-3xl">
         Settings
       </h1>
-      <div className="mt-6 flex flex-row gap-6">
+      <div className="mt-6 flex h-full flex-row gap-6">
         <div className="bg-background rounded-lg">
           {tabs.map((tab, i) => {
             const Icon = tab.icon;
@@ -99,7 +99,7 @@ export default function SettingsPage() {
                 key={i}
                 id="menu-setting"
                 onClick={() => handleClikTab(tab.name)}
-                className={`group flex items-start gap-2 p-6 transition-all duration-300 ${activeTab === tab.name ? "bg-primary/30" : "hover:bg-primary/30"} ${isFirst ? "rounded-t-lg" : ""} ${isLast ? "rounded-b-lg" : ""}`}
+                className={`group flex cursor-pointer items-start gap-2 p-6 transition-all duration-300 ${activeTab === tab.name ? "bg-primary/30" : "hover:bg-primary/30"} ${isFirst ? "rounded-t-lg" : ""} ${isLast ? "rounded-b-lg" : ""}`}
               >
                 <Icon
                   className={`mt-1 size-4 ${activeTab === tab.name ? "text-primary" : "text-text-secondary group-hover:text-primary"}`}
@@ -116,7 +116,7 @@ export default function SettingsPage() {
             );
           })}
         </div>
-        <div className="bg-background flex-1 rounded-lg">
+        <div className="bg-background flex-1 overflow-hidden rounded-lg">
           {renderContentTab()}
         </div>
       </div>

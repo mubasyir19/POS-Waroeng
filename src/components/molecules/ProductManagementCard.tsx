@@ -24,7 +24,7 @@ export default function ProductManagementCard({
           alt="image menu"
           className="mx-auto mb-4 h-28 w-28 rounded-full object-cover"
         />
-        <div className="mx-auto w-1/2">
+        <div className="mx-auto">
           <p className="text-center text-sm font-medium text-white">{name}</p>
           <div className="mt-2 flex items-center justify-center gap-2">
             <p className="text-text-light text-sm">
@@ -35,7 +35,7 @@ export default function ProductManagementCard({
           </div>
         </div>
       </div>
-      <button className="bg-primary/20 flex w-full items-center justify-center gap-2 rounded-b-lg py-4 focus:outline-none">
+      <button className="bg-primary/20 flex w-full cursor-pointer items-center justify-center gap-2 rounded-b-lg py-4 focus:outline-none">
         <PenLine className="text-primary size-3.5" />
         <p className="text-primary text-sm font-semibold">Edit Menu</p>
       </button>

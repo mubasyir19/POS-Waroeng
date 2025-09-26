@@ -8,7 +8,7 @@ import React, { useState } from "react";
 export default function ManagementProduct() {
   const [selectedCategory, setSelectedCategory] = useState<string>("Makanan");
   return (
-    <>
+    <div className="flex h-full flex-col">
       <div className="flex items-start justify-between p-6">
         <h2 className="text-xl font-semibold text-white">
           Products Management
@@ -28,7 +28,7 @@ export default function ManagementProduct() {
           />
         </div>
       </div>
-      <div className="grid grid-cols-3 gap-4 p-6">
+      <div className="no-scrollbar grid grid-cols-3 gap-4 overflow-y-auto p-6">
         <button
           // onClick={onAddClick}
           className="border-primary flex h-full cursor-pointer flex-col items-center justify-center rounded-lg border-2 border-dashed bg-transparent p-4 transition focus:outline-none"
@@ -41,6 +41,6 @@ export default function ManagementProduct() {
         </button>
         <ListManageProduct category={selectedCategory} />
       </div>
-    </>
+    </div>
   );
 }
