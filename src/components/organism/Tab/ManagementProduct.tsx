@@ -1,9 +1,14 @@
-import { Settings2 } from "lucide-react";
-import React from "react";
+"use client";
+
+import CategoryTabs from "@/components/molecules/CategoryTabs";
+import ListManageProduct from "@/components/molecules/ListManageProduct";
+import { Plus, Settings2 } from "lucide-react";
+import React, { useState } from "react";
 
 export default function ManagementProduct() {
+  const [selectedCategory, setSelectedCategory] = useState<string>("Makanan");
   return (
-    <>
+    <div className="flex h-full flex-col">
       <div className="flex items-start justify-between p-6">
         <h2 className="text-xl font-semibold text-white">
           Products Management
@@ -16,11 +21,26 @@ export default function ManagementProduct() {
         </button>
       </div>
       <div className="mt-4">
-        {/* <CategoryTabs
-                selected={selectedCategory}
-                onSelect={setSelectedCategory}
-                /> */}
+        <div className="px-6">
+          <CategoryTabs
+            selected={selectedCategory}
+            onSelect={setSelectedCategory}
+          />
+        </div>
       </div>
-    </>
+      <div className="no-scrollbar grid grid-cols-3 gap-4 overflow-y-auto p-6">
+        <button
+          // onClick={onAddClick}
+          className="border-primary flex h-full cursor-pointer flex-col items-center justify-center rounded-lg border-2 border-dashed bg-transparent p-4 transition focus:outline-none"
+          aria-label="Tambah produk"
+        >
+          <Plus className="text-primary text-xl" />
+          <span className="text-primary mt-2 text-base font-semibold">
+            Tambah Menu Baru
+          </span>
+        </button>
+        <ListManageProduct category={selectedCategory} />
+      </div>
+    </div>
   );
 }
