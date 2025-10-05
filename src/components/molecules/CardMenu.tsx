@@ -6,11 +6,15 @@ interface MenuProps {
   imageLink: string;
   name: string;
   price: number;
+  onAdd: () => void;
 }
 
-export default function CardMenu({ imageLink, name, price }: MenuProps) {
+export default function CardMenu({ imageLink, name, price, onAdd }: MenuProps) {
   return (
-    <div className="bg-background hover:border-primary flex cursor-pointer flex-col items-center rounded-2xl border border-transparent p-4 text-center transition-transform duration-300">
+    <div
+      onClick={onAdd}
+      className="bg-background hover:border-primary flex cursor-pointer flex-col items-center rounded-2xl border border-transparent p-4 text-center transition-transform duration-300"
+    >
       <Image
         src={imageLink}
         width={132}
