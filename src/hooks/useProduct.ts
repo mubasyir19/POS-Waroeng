@@ -3,9 +3,41 @@ import {
   getAllProductsByCategory,
 } from "@/services/productsService";
 import { Product, ProductForm } from "@/types/product";
-import { useCallback, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 
-export function useProduct() {
+export function useFetchProductByCategory(categoryId: string) {
+  const [products, setProducts] = useState<Product[] | null>(null);
+  const [loading, setLoading] = useState<boolean>(false);
+  const [error, setError] = useState<string | null>(null);
+
+  useEffect(() => {
+    if (!categoryId) return;
+
+    async function fetchByCategory() {
+      setLoading(true);
+      setError(null);
+      try {
+        const data = await getAllProductsByCategory(categoryId);
+
+        setProducts(data.data);
+      } catch (error) {
+        if (error instanceof Error) {
+          setError(error.message);
+        } else {
+          setError("Unexpected error");
+        }
+      } finally {
+        setLoading(false);
+      }
+    }
+
+    fetchByCategory();
+  }, [categoryId]);
+
+  return { products, loading, error };
+}
+
+export function useProducts() {
   const [products, setProducts] = useState<Product[]>([]);
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);

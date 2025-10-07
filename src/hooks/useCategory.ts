@@ -13,6 +13,7 @@ export function useCategory() {
     try {
       const data = await getAllCategory();
       setCategory(data);
+      return data;
     } catch (error) {
       if (error instanceof Error) {
         setError(error.message);

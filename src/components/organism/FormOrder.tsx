@@ -3,21 +3,14 @@
 import { useOrderStore } from "@/store/orderStore";
 import React, { useState } from "react";
 import CartItem from "../molecules/CartItem";
-import { OrderItem } from "@/types";
 import { findMenuById } from "@/helpers/listMenu";
 import { formatPrice } from "@/helpers/formatPrice";
 
 export default function FormOrder() {
   const [type, setType] = useState<string>("Dine in");
 
-  const {
-    items,
-    increaseQty,
-    decreaseQty,
-    clearOrder,
-    removeItem,
-    updateNote,
-  } = useOrderStore();
+  const { items, increaseQty, decreaseQty, removeItem, updateNote } =
+    useOrderStore();
 
   const totalPrice = items.reduce((acc, item) => {
     return acc + item.price;
@@ -84,8 +77,6 @@ export default function FormOrder() {
         <div className="no-scrollbar my-4 h-96 space-y-5 overflow-x-hidden overflow-y-auto">
           {items.map((item) => {
             const menu = findMenuById(item.productId);
-            console.log("ini id item nya", item.productId);
-            console.log("ini menu nya", menu);
             return (
               <CartItem
                 key={item.productId}
