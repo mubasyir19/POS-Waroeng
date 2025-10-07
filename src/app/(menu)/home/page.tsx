@@ -7,7 +7,8 @@ import { Search } from "lucide-react";
 import React, { useState } from "react";
 
 export default function HomePage() {
-  const [selectedCategory, setSelectedCategory] = useState("Makanan");
+  const [selectedCategory, setSelectedCategory] = useState("");
+
   return (
     <div className="flex h-screen flex-row">
       <div className="bg-surface flex h-screen w-4/6 flex-col p-6">
@@ -34,7 +35,8 @@ export default function HomePage() {
         <div className="mt-4">
           <CategoryTabs
             selected={selectedCategory}
-            onSelect={setSelectedCategory}
+            // onSelect={setSelectedCategory}
+            onSelect={(category) => setSelectedCategory(category)}
           />
         </div>
         <ListMenu category={selectedCategory} />

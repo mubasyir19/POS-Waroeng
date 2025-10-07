@@ -6,7 +6,7 @@ export const getAllCategory = async () => {
     const res = await fetch(`${API_URL}/category`);
     const data = await res.json();
 
-    return data;
+    return data.data;
   } catch (error) {
     throw new Error((error as Error).message || "Something went wrong");
   }

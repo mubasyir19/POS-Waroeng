@@ -13,7 +13,7 @@ export default function CardMenu({ imageLink, name, price, onAdd }: MenuProps) {
   return (
     <div
       onClick={onAdd}
-      className="bg-background hover:border-primary flex cursor-pointer flex-col items-center rounded-2xl border border-transparent p-4 text-center transition-transform duration-300"
+      className="bg-background hover:border-primary flex h-fit cursor-pointer flex-col items-center rounded-2xl border border-transparent p-4 text-center transition-transform duration-300"
     >
       <Image
         src={imageLink}
