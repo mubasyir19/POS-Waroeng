@@ -35,11 +35,16 @@ export default function HomePage() {
         <div className="mt-4">
           <CategoryTabs
             selected={selectedCategory}
-            // onSelect={setSelectedCategory}
             onSelect={(category) => setSelectedCategory(category)}
           />
         </div>
-        <ListMenu category={selectedCategory} />
+        {selectedCategory ? (
+          <ListMenu category={selectedCategory} />
+        ) : (
+          <p className="text-base font-medium text-red-500">
+            Terjadi masalah dengan koneksi server.
+          </p>
+        )}
       </div>
       <div className="bg-background h-screen w-2/6 p-6">
         <FormOrder />
