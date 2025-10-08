@@ -2,15 +2,13 @@
 
 import { useOrderStore } from "@/store/orderStore";
 import React, { useState } from "react";
-import CartItem from "../molecules/CartItem";
-import { findMenuById } from "@/helpers/listMenu";
 import { formatPrice } from "@/helpers/formatPrice";
+import CartItemWrapper from "../molecules/CartItemWrapper";
 
 export default function FormOrder() {
   const [type, setType] = useState<string>("Dine in");
 
-  const { items, increaseQty, decreaseQty, removeItem, updateNote } =
-    useOrderStore();
+  const { items } = useOrderStore();
 
   const totalPrice = items.reduce((acc, item) => {
     return acc + item.price;
@@ -18,7 +16,7 @@ export default function FormOrder() {
 
   return (
     <div>
-      <h3 className="text-lg font-semibold text-white">Order #34562</h3>
+      <h3 className="text-lg font-semibold text-white">Pesanan</h3>
       <div className="mt-4">
         <div className="flex items-center gap-2">
           <button
@@ -75,24 +73,9 @@ export default function FormOrder() {
         </div>
       ) : (
         <div className="no-scrollbar my-4 h-96 space-y-5 overflow-x-hidden overflow-y-auto">
-          {items.map((item) => {
-            const menu = findMenuById(item.productId);
-            return (
-              <CartItem
-                key={item.productId}
-                {...item}
-                price={menu?.hargaMenu || 0 * item.quantity}
-                quantity={item.quantity}
-                addQty={() => increaseQty(item.productId)}
-                minQty={() => decreaseQty(item.productId)}
-                onRemove={() => removeItem(item.productId)}
-                note={item.note as string}
-                onNoteChange={(note: string) =>
-                  updateNote(item.productId, note)
-                }
-              />
-            );
-          })}
+          {items.map((item) => (
+            <CartItemWrapper key={item.productId} item={item} />
+          ))}
         </div>
       )}
       <div className="space-y-2">
