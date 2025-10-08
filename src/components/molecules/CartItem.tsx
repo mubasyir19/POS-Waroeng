@@ -1,5 +1,6 @@
 import { formatPrice } from "@/helpers/formatPrice";
-import { findMenuById } from "@/helpers/listMenu";
+// import { findMenuById } from "@/helpers/listMenu";
+import { useProductById } from "@/hooks/useProduct";
 import { Trash2 } from "lucide-react";
 import Image from "next/image";
 import React from "react";
@@ -25,8 +26,10 @@ export default function CartItem({
   note,
   onNoteChange,
 }: CartItemProps) {
-  const menu = findMenuById(productId);
-  const subtotal = (price || menu?.hargaMenu || 0) * (quantity || 0);
+  const { product } = useProductById(productId);
+  // const menu = findMenuById(productId);
+  // const subtotal = (price || menu?.hargaMenu || 0) * (quantity || 0);
+  const subtotal = (price || product?.price || 0) * (quantity || 0);
 
   return (
     <div id="cart-item">
@@ -41,17 +44,17 @@ export default function CartItem({
           />
           <div className="flex flex-col">
             <span className="max-w-20 truncate text-sm font-medium text-gray-200">
-              {menu?.namaMenu}
+              {product?.name}
             </span>
             <span className="text-xs text-gray-400">
-              {formatPrice(menu?.hargaMenu as number)}
+              {formatPrice(product?.price as number)}
             </span>
           </div>
         </div>
         <div className="flex items-center gap-10">
           <div className="flex items-center gap-4">
             <button
-              //   onClick={() => decreaseQty(menu?.id as string)}
+              //   onClick={() => decreaseQty(product?.id as string)}
               onClick={minQty}
               className="text-primary text-xl"
             >
@@ -59,7 +62,7 @@ export default function CartItem({
             </button>
             <p className="font-medium text-white">{quantity}</p>
             <button
-              //   onClick={() => increaseQty(menu?.id as string)}
+              //   onClick={() => increaseQty(product?.id as string)}
               onClick={addQty}
               className="text-primary text-xl"
             >
@@ -67,7 +70,7 @@ export default function CartItem({
             </button>
           </div>
           <div className="font-medium text-gray-200">
-            {/* {formatPrice((menu?.hargaMenu || 0) * quantity)} */}
+            {/* {formatPrice((product?.hargaMenu || 0) * quantity)} */}
             {formatPrice(subtotal)}
           </div>
         </div>
