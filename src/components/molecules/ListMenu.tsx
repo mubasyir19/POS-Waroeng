@@ -1,6 +1,5 @@
 import React from "react";
 import CardMenu from "./CardMenu";
-// import { daftarMenu } from "@/helpers/listMenu";
 import { useOrderStore } from "@/store/orderStore";
 import { useFetchProductByCategory } from "@/hooks/useProduct";
 
@@ -31,23 +30,6 @@ export default function ListMenu({ category }: ListMenuProps) {
           }}
         />
       ))}
-      {/* {selectedCategory?.menu.map((menu, i) => (
-        <CardMenu
-          key={i}
-          imageLink="/images/menu1.png"
-          name={menu.namaMenu}
-          price={menu.hargaMenu}
-          onAdd={() => {
-            addItem({
-              id: crypto.randomUUID(),
-              productId: menu.id,
-              quantity: 1,
-              price: menu.hargaMenu,
-              note: "",
-            });
-          }}
-        />
-      ))} */}
     </div>
   );
 }
