@@ -5,7 +5,11 @@ import React, { useState } from "react";
 import { formatPrice } from "@/helpers/formatPrice";
 import CartItemWrapper from "../molecules/CartItemWrapper";
 
-export default function FormOrder() {
+interface FormOrderProps {
+  onProceed: () => void;
+}
+
+export default function FormOrder({ onProceed }: FormOrderProps) {
   const [type, setType] = useState<string>("Dine in");
 
   const { items } = useOrderStore();
@@ -91,7 +95,10 @@ export default function FormOrder() {
         </div>
       </div>
       <div className="mt-6">
-        <button className="bg-primary/80 hover:bg-primary w-full rounded-md py-1.5 text-center font-medium text-white">
+        <button
+          onClick={onProceed}
+          className="bg-primary/80 hover:bg-primary w-full rounded-md py-1.5 text-center font-medium text-white"
+        >
           Continue to Payment
         </button>
       </div>

@@ -9,7 +9,6 @@ interface CartItemWrapperProps {
 }
 
 export default function CartItemWrapper({ item }: CartItemWrapperProps) {
-  console.log("ini id yang mau ditambah = ", item.productId);
   const { product, loading } = useProductById(item.productId);
   const { increaseQty, decreaseQty, removeItem, updateNote } = useOrderStore();
 
