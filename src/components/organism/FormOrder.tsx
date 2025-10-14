@@ -4,19 +4,53 @@ import { useOrderStore } from "@/store/orderStore";
 import React, { useState } from "react";
 import { formatPrice } from "@/helpers/formatPrice";
 import CartItemWrapper from "../molecules/CartItemWrapper";
+import { useCheckoutOrder } from "@/hooks/useOrder";
 
 interface FormOrderProps {
   onProceed: () => void;
 }
 
 export default function FormOrder({ onProceed }: FormOrderProps) {
-  const [type, setType] = useState<string>("Dine in");
-
   const { items } = useOrderStore();
+  const { handleNewCheckout } = useCheckoutOrder();
+
+  const [type, setType] = useState<"DINE_IN" | "TAKE_AWAY" | "DELIVERY">(
+    "DINE_IN",
+  );
+  const [customer, setCustomer] = useState<string>("");
 
   const totalPrice = items.reduce((acc, item) => {
     return acc + item.price;
   }, 0);
+
+  console.log("Data checkout yang akan disimpan", {
+    waiterId: "ba7ee4da-b3be-48da-b7fd-64b74c258d50",
+    customer: customer,
+    oderType: type,
+    totalPrice: totalPrice,
+    items: items,
+  });
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+
+    const checkoutData = {
+      waiterId: "ba7ee4da-b3be-48da-b7fd-64b74c258d50",
+      customer: customer,
+      orderType: type,
+      totalPrice: totalPrice,
+      items: items,
+    };
+
+    console.log("akan disimpan:", checkoutData);
+    const res = await handleNewCheckout(checkoutData);
+
+    if (res) {
+      alert("Checkout berhasil!");
+      console.log("Hasil dari API:", res);
+      onProceed();
+    }
+  };
 
   return (
     <div>
@@ -25,9 +59,9 @@ export default function FormOrder({ onProceed }: FormOrderProps) {
         <div className="flex items-center gap-2">
           <button
             type="button"
-            onClick={() => setType("Dine in")}
+            onClick={() => setType("DINE_IN")}
             className={`w-fit cursor-pointer rounded-lg border px-4 py-2 text-xs font-medium transition lg:text-sm ${
-              type === "Dine in"
+              type === "DINE_IN"
                 ? "border-primary bg-primary text-white"
                 : "border-dark-line text-primary hover:bg-primary hover:text-white"
             }`}
@@ -36,9 +70,9 @@ export default function FormOrder({ onProceed }: FormOrderProps) {
           </button>
           <button
             type="button"
-            onClick={() => setType("Take Away")}
+            onClick={() => setType("TAKE_AWAY")}
             className={`w-fit cursor-pointer rounded-lg border px-4 py-2 text-xs font-medium transition lg:text-sm ${
-              type === "Take Away"
+              type === "TAKE_AWAY"
                 ? "border-primary bg-primary text-white"
                 : "border-dark-line text-primary hover:bg-primary hover:text-white"
             }`}
@@ -47,9 +81,9 @@ export default function FormOrder({ onProceed }: FormOrderProps) {
           </button>
           <button
             type="button"
-            onClick={() => setType("Delivery")}
+            onClick={() => setType("DELIVERY")}
             className={`w-fit cursor-pointer rounded-lg border px-4 py-2 text-xs font-medium transition lg:text-sm ${
-              type === "Delivery"
+              type === "DELIVERY"
                 ? "border-primary bg-primary text-white"
                 : "border-dark-line text-primary hover:bg-primary hover:text-white"
             }`}
@@ -57,6 +91,16 @@ export default function FormOrder({ onProceed }: FormOrderProps) {
             Delivery
           </button>
         </div>
+      </div>
+      <div className="mt-2">
+        <label className="text-sm text-white">Nama Pelanggan</label>
+        <input
+          type="text"
+          value={customer}
+          onChange={(e) => setCustomer(e.target.value)}
+          placeholder="Masukkan nama pelanggan"
+          className="focus:border-primary mt-1.5 w-full rounded-md border border-transparent bg-gray-800 px-3 py-2 text-sm text-gray-200 placeholder-gray-500 outline-none"
+        />
       </div>
       <div className="mt-6 border-b border-gray-700 pb-4">
         <div className="flex flex-row items-center justify-between">
@@ -96,7 +140,7 @@ export default function FormOrder({ onProceed }: FormOrderProps) {
       </div>
       <div className="mt-6">
         <button
-          onClick={onProceed}
+          onClick={handleSubmit}
           className="bg-primary/80 hover:bg-primary w-full rounded-md py-1.5 text-center font-medium text-white"
         >
           Continue to Payment

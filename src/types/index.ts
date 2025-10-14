@@ -1,5 +1,5 @@
 export type OrderItem = {
-  id: string;
+  // id: string;
   productId: string;
   orderItem?: string;
   price: number;
