@@ -21,7 +21,7 @@ export default function ListMenu({ category }: ListMenuProps) {
           price={menu.price}
           onAdd={() => {
             addItem({
-              id: menu.id,
+              // id: menu.id,
               productId: menu.id,
               quantity: 1,
               price: menu.price,
