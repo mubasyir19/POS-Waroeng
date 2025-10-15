@@ -7,7 +7,7 @@ import CartItemWrapper from "../molecules/CartItemWrapper";
 import { useCheckoutOrder } from "@/hooks/useOrder";
 
 interface FormOrderProps {
-  onProceed: () => void;
+  onProceed: (orderId: string) => void;
 }
 
 export default function FormOrder({ onProceed }: FormOrderProps) {
@@ -23,32 +23,22 @@ export default function FormOrder({ onProceed }: FormOrderProps) {
     return acc + item.price;
   }, 0);
 
-  console.log("Data checkout yang akan disimpan", {
-    waiterId: "ba7ee4da-b3be-48da-b7fd-64b74c258d50",
-    customer: customer,
-    oderType: type,
-    totalPrice: totalPrice,
-    items: items,
-  });
-
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
     const checkoutData = {
-      waiterId: "ba7ee4da-b3be-48da-b7fd-64b74c258d50",
+      waiterId: "a83e28d9-e2d4-4bd0-a2ce-d5e0cd3330a6",
       customer: customer,
       orderType: type,
       totalPrice: totalPrice,
       items: items,
     };
 
-    console.log("akan disimpan:", checkoutData);
     const res = await handleNewCheckout(checkoutData);
 
-    if (res) {
+    if (res.code === "CREATED") {
       alert("Checkout berhasil!");
-      console.log("Hasil dari API:", res);
-      onProceed();
+      onProceed(res.data.id);
     }
   };
 

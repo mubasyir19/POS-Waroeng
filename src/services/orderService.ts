@@ -9,15 +9,33 @@ export const checkoutOrder = async (input: Order) => {
       body: JSON.stringify(input),
     });
 
+    const data = await res.json();
+
     if (!res.ok) {
-      const errorData = await res.json();
-      throw new Error(errorData.message || "Failed to add data");
+      throw new Error(data.message || "Failed to add data");
     }
 
-    const data = await res.json();
     return data;
   } catch (error) {
-    console.log("(services) terjadi error :", error);
+    throw new Error((error as Error).message || "Something went wrong");
+  }
+};
+
+export const deleteOrder = async (id: string) => {
+  try {
+    const res = await fetch(`${API_URL}/order/delete/${id}`, {
+      method: "DELETE",
+      headers: { "Content-Type": "application/json" },
+    });
+
+    const data = await res.json();
+
+    if (!res.ok) {
+      throw new Error(data.message || "Failed to delete data");
+    }
+
+    return data;
+  } catch (error) {
     throw new Error((error as Error).message || "Something went wrong");
   }
 };
