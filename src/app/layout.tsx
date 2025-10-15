@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Barlow } from "next/font/google";
 import "./globals.css";
 import Sidebar from "@/components/organism/Sidebar";
+import { Toaster } from "sonner";
 
 const barlow = Barlow({
   weight: ["100", "200", "300", "400", "500", "600", "700", "800", "900"],
@@ -27,6 +28,7 @@ export default function RootLayout({
         <Sidebar />
         <main className="flex-1 overflow-y-auto">{children}</main>
       </body>
+      <Toaster richColors position="bottom-right" />
     </html>
   );
 }

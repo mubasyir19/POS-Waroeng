@@ -3,6 +3,7 @@ import { Banknote, Landmark, QrCode, Smartphone } from "lucide-react";
 import React, { useEffect, useState } from "react";
 
 interface PaymentProps {
+  orderId: string;
   onCancel: () => void;
 }
 

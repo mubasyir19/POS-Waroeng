@@ -4,12 +4,36 @@ import CategoryTabs from "@/components/molecules/CategoryTabs";
 import ListMenu from "@/components/molecules/ListMenu";
 import FormOrder from "@/components/organism/FormOrder";
 import Payment from "@/components/organism/Payment";
+import { useDeleteOrder } from "@/hooks/useOrder";
 import { Search } from "lucide-react";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 
 export default function HomePage() {
   const [selectedCategory, setSelectedCategory] = useState("");
   const [continuePayment, setContinuePayment] = useState<boolean>(false);
+  const [orderId, setOrderId] = useState<string | null>(null);
+  const { deleteOrder } = useDeleteOrder();
+
+  useEffect(() => {
+    const savedOrderId = localStorage.getItem("currentOrderId");
+    if (savedOrderId) {
+      setOrderId(savedOrderId);
+      setContinuePayment(true);
+    }
+  }, []);
+
+  const handleProceed = (id: string) => {
+    setOrderId(id);
+    localStorage.setItem("currentOrderId", id);
+    setContinuePayment(true);
+  };
+
+  const handleCancelProceed = (idOrder: string) => {
+    deleteOrder(idOrder);
+    setContinuePayment(false);
+    setOrderId(null);
+    localStorage.removeItem("currentOrderId");
+  };
 
   return (
     <div className="flex h-screen flex-row">
@@ -47,12 +71,15 @@ export default function HomePage() {
             Terjadi masalah dengan koneksi server.
           </p>
         )}
-        {continuePayment && (
-          <Payment onCancel={() => setContinuePayment(false)} />
+        {continuePayment && orderId && (
+          <Payment
+            orderId={orderId}
+            onCancel={() => handleCancelProceed(orderId)}
+          />
         )}
       </div>
       <div className="bg-background h-screen w-2/6 p-6">
-        <FormOrder onProceed={() => setContinuePayment(true)} />
+        <FormOrder onProceed={(orderId) => handleProceed(orderId)} />
       </div>
     </div>
   );
