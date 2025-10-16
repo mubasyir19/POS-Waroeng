@@ -27,8 +27,8 @@ export default function RootLayout({
       >
         <Sidebar />
         <main className="flex-1 overflow-y-auto">{children}</main>
+        <Toaster richColors position="bottom-right" />
       </body>
-      <Toaster richColors position="bottom-right" />
     </html>
   );
 }
