@@ -1,17 +1,18 @@
 "use client";
 
 import { useOrderStore } from "@/store/orderStore";
-import React, { useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { formatPrice } from "@/helpers/formatPrice";
 import CartItemWrapper from "../molecules/CartItemWrapper";
 import { useCheckoutOrder } from "@/hooks/useOrder";
 
 interface FormOrderProps {
   onProceed: (orderId: string) => void;
+  resetSignal?: boolean;
 }
 
-export default function FormOrder({ onProceed }: FormOrderProps) {
-  const { items } = useOrderStore();
+export default function FormOrder({ onProceed, resetSignal }: FormOrderProps) {
+  const { items, clearOrder } = useOrderStore();
   const { handleNewCheckout } = useCheckoutOrder();
 
   const [type, setType] = useState<"DINE_IN" | "TAKE_AWAY" | "DELIVERY">(
@@ -22,6 +23,18 @@ export default function FormOrder({ onProceed }: FormOrderProps) {
   const totalPrice = items.reduce((acc, item) => {
     return acc + item.price;
   }, 0);
+
+  const resetForm = useCallback(() => {
+    setType("DINE_IN");
+    setCustomer("");
+    clearOrder(); // hapus semua item pesanan
+  }, [clearOrder]);
+
+  useEffect(() => {
+    if (resetSignal !== undefined) {
+      resetForm();
+    }
+  }, [resetForm, resetSignal]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
