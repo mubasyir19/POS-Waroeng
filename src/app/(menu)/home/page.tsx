@@ -12,6 +12,7 @@ export default function HomePage() {
   const [selectedCategory, setSelectedCategory] = useState("");
   const [continuePayment, setContinuePayment] = useState<boolean>(false);
   const [orderId, setOrderId] = useState<string | null>(null);
+  const [resetFormOrderSignal, setResetFormOrderSignal] = useState(false);
   const { deleteOrder } = useDeleteOrder();
 
   useEffect(() => {
@@ -33,6 +34,16 @@ export default function HomePage() {
     setContinuePayment(false);
     setOrderId(null);
     localStorage.removeItem("currentOrderId");
+  };
+
+  // dipanggil saat payment sukses
+  const handlePaymentSuccess = () => {
+    setContinuePayment(false);
+    setOrderId(null);
+    localStorage.removeItem("currentOrderId");
+
+    // toggle signal agar FormOrder mereset dirinya
+    setResetFormOrderSignal((s) => !s);
   };
 
   return (
@@ -75,11 +86,15 @@ export default function HomePage() {
           <Payment
             orderId={orderId}
             onCancel={() => handleCancelProceed(orderId)}
+            onSuccess={handlePaymentSuccess}
           />
         )}
       </div>
       <div className="bg-background h-screen w-2/6 p-6">
-        <FormOrder onProceed={(orderId) => handleProceed(orderId)} />
+        <FormOrder
+          onProceed={(orderId) => handleProceed(orderId)}
+          resetSignal={resetFormOrderSignal}
+        />
       </div>
     </div>
   );

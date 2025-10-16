@@ -1,6 +1,10 @@
-import { checkoutOrder, deleteOrder } from "@/services/orderService";
+import {
+  checkoutOrder,
+  deleteOrder,
+  getDetailOrder,
+} from "@/services/orderService";
 import { Order } from "@/types/order";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { toast } from "sonner";
 
 export function useCheckoutOrder() {
@@ -24,6 +28,36 @@ export function useCheckoutOrder() {
   };
 
   return { handleNewCheckout, data, loading, error };
+}
+
+export function useOrderById(id: string) {
+  const [order, setOrder] = useState<Order | null>(null);
+  const [loading, setLoading] = useState<boolean>(false);
+  const [error, setError] = useState<string | null>(null);
+
+  useEffect(() => {
+    if (!id) return;
+
+    async function fetchOrder() {
+      setLoading(true);
+      setError(null);
+      try {
+        const res = await getDetailOrder(id);
+
+        if (res.code !== "SUCCESS") throw new Error("Failed to fetch product");
+
+        setOrder(res.data);
+      } catch (error) {
+        setError((error as Error).message);
+      } finally {
+        setLoading(false);
+      }
+    }
+
+    fetchOrder();
+  }, [id]);
+
+  return { order, loading, error };
 }
 
 export function useDeleteOrder() {
