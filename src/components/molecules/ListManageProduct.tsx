@@ -1,24 +1,45 @@
-import { daftarMenu } from "@/helpers/listMenu";
+// import { daftarMenu } from "@/helpers/listMenu";
 import React from "react";
 import ProductManagementCard from "./ProductManagementCard";
+import { useFetchProductByCategory } from "@/hooks/useProduct";
+import { API_URL } from "@/config";
+import { Product } from "@/types/product";
 
 interface ListManageProductProps {
   category: string;
+  onEditProduct: (product: Product) => void;
 }
 
 export default function ListManageProduct({
   category,
+  onEditProduct,
 }: ListManageProductProps) {
-  const selectedCategory = daftarMenu.find((d) => d.kategori === category);
+  const { products } = useFetchProductByCategory(category);
 
   return (
     <>
-      {selectedCategory?.menu.map((menu, i) => (
+      {/* {selectedCategory?.menu.map((menu, i) => ( */}
+      {products?.map((menu, i) => (
         <ProductManagementCard
           key={i}
-          imageLink="/images/menu1.png"
-          name={menu.namaMenu}
-          price={Number(menu.hargaMenu)}
+          // imageLink="/images/menu1.png"
+          imageLink={`${API_URL}${menu.imageUrl}`}
+          name={menu.name}
+          price={Number(menu.price)}
+          stock={Number(menu.stock)}
+          unitId={menu.unitId}
+          // onEditClick={() => onEditProduct()}
+          onEditClick={() =>
+            onEditProduct({
+              id: menu.id,
+              name: menu.name,
+              price: menu.price,
+              stock: menu.stock,
+              imageUrl: menu.imageUrl,
+              unitId: menu.unitId,
+              categoryId: menu.categoryId,
+            })
+          }
         />
       ))}
     </>

@@ -23,12 +23,11 @@ export const getProductById = async (id: string) => {
   }
 };
 
-export const addProduct = async (input: ProductForm) => {
+export const addProduct = async (formData: FormData) => {
   try {
     const res = await fetch(`${API_URL}/product/add`, {
       method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(input),
+      body: formData,
     });
 
     if (!res.ok) {
@@ -43,12 +42,11 @@ export const addProduct = async (input: ProductForm) => {
   }
 };
 
-export const updateProduct = async (input: ProductForm, id: string) => {
+export const updateProduct = async (formData: FormData, id: string) => {
   try {
     const res = await fetch(`${API_URL}/product/edit/${id}`, {
       method: "PUT",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(input),
+      body: formData,
     });
 
     if (!res.ok) {
@@ -59,6 +57,7 @@ export const updateProduct = async (input: ProductForm, id: string) => {
     const data = await res.json();
     return data.data;
   } catch (error) {
+    console.log("(service) terjadi error", error);
     throw new Error((error as Error).message || "Something went wrong");
   }
 };
