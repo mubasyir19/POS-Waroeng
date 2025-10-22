@@ -1,4 +1,4 @@
-import { API_URL } from "@/config";
+import { API_URL } from "@/utils/config";
 import { Category } from "@/types/category";
 
 export const getAllCategory = async () => {

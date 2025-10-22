@@ -2,7 +2,7 @@
 import React from "react";
 import ProductManagementCard from "./ProductManagementCard";
 import { useFetchProductByCategory } from "@/hooks/useProduct";
-import { API_URL } from "@/config";
+import { API_URL } from "@/utils/config";
 import { Product } from "@/types/product";
 
 interface ListManageProductProps {
