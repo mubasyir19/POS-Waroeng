@@ -1,4 +1,4 @@
-import { API_URL } from "@/config";
+import { API_URL } from "@/utils/config";
 import { Order } from "@/types/order";
 
 export const getDetailOrder = async (id: string) => {

@@ -1,4 +1,4 @@
-import { API_URL } from "@/config";
+import { API_URL } from "@/utils/config";
 import { ProductForm } from "@/types/product";
 
 export const getAllProductsByCategory = async (categoryId: string) => {

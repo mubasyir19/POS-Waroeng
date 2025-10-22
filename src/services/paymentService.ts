@@ -1,4 +1,4 @@
-import { API_URL } from "@/config";
+import { API_URL } from "@/utils/config";
 import { PaymentForm } from "@/types/payment";
 
 export const completePayment = async (orderId: string, input: PaymentForm) => {

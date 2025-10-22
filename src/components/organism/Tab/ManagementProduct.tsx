@@ -20,7 +20,7 @@ import { Product, ProductForm } from "@/types/product";
 import { useFetchUnit } from "@/hooks/useUnit";
 import { useCategory } from "@/hooks/useCategory";
 import { useAddProduct, useEditProduct } from "@/hooks/useProduct";
-import { API_URL } from "@/config";
+import { API_URL } from "@/utils/config";
 
 export default function ManagementProduct() {
   const [selectedCategory, setSelectedCategory] = useState<string>("");
