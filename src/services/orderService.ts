@@ -5,6 +5,7 @@ export const getDetailOrder = async (id: string) => {
   try {
     const res = await fetch(`${API_URL}/order/${id}`, {
       headers: { "Content-Type": "application/json" },
+      credentials: "include",
     });
 
     const data = await res.json();
@@ -25,6 +26,7 @@ export const checkoutOrder = async (input: Order) => {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(input),
+      credentials: "include",
     });
 
     const data = await res.json();
@@ -44,6 +46,7 @@ export const deleteOrder = async (id: string) => {
     const res = await fetch(`${API_URL}/order/delete/${id}`, {
       method: "DELETE",
       headers: { "Content-Type": "application/json" },
+      credentials: "include",
     });
 
     const data = await res.json();
@@ -67,6 +70,7 @@ export const updateOrderStatus = async (
       method: "PATCH",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(status),
+      credentials: "include",
     });
 
     const data = await res.json();
