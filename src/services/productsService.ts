@@ -1,9 +1,10 @@
 import { API_URL } from "@/utils/config";
-import { ProductForm } from "@/types/product";
 
 export const getAllProductsByCategory = async (categoryId: string) => {
   try {
-    const res = await fetch(`${API_URL}/product/${categoryId}`);
+    const res = await fetch(`${API_URL}/product/${categoryId}`, {
+      credentials: "include",
+    });
     const data = await res.json();
 
     return data;
@@ -14,7 +15,9 @@ export const getAllProductsByCategory = async (categoryId: string) => {
 
 export const getProductById = async (id: string) => {
   try {
-    const res = await fetch(`${API_URL}/product/detail/${id}`);
+    const res = await fetch(`${API_URL}/product/detail/${id}`, {
+      credentials: "include",
+    });
     const data = await res.json();
 
     return data;
@@ -28,6 +31,7 @@ export const addProduct = async (formData: FormData) => {
     const res = await fetch(`${API_URL}/product/add`, {
       method: "POST",
       body: formData,
+      credentials: "include",
     });
 
     if (!res.ok) {
@@ -47,6 +51,7 @@ export const updateProduct = async (formData: FormData, id: string) => {
     const res = await fetch(`${API_URL}/product/edit/${id}`, {
       method: "PUT",
       body: formData,
+      credentials: "include",
     });
 
     if (!res.ok) {
@@ -66,6 +71,7 @@ export const deleteProduct = async (id: string) => {
   try {
     const res = await fetch(`${API_URL}/product/delete/${id}`, {
       method: "DELETE",
+      credentials: "include",
     });
 
     if (!res.ok) {

@@ -3,7 +3,9 @@ import { Category } from "@/types/category";
 
 export const getAllCategory = async () => {
   try {
-    const res = await fetch(`${API_URL}/category`);
+    const res = await fetch(`${API_URL}/category`, {
+      credentials: "include",
+    });
     const data = await res.json();
 
     return data.data;
@@ -14,7 +16,9 @@ export const getAllCategory = async () => {
 
 export const getCategoryById = async (id: string) => {
   try {
-    const res = await fetch(`${API_URL}/category/${id}`);
+    const res = await fetch(`${API_URL}/category/${id}`, {
+      credentials: "include",
+    });
     const data = await res.json();
 
     return data;
@@ -29,6 +33,7 @@ export const addCategory = async (input: Category) => {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(input),
+      credentials: "include",
     });
     const data = await res.json();
 
@@ -44,6 +49,7 @@ export const updateCategory = async (input: Category, id: string) => {
       method: "PUT",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(input),
+      credentials: "include",
     });
 
     if (!res.ok) {
@@ -62,6 +68,7 @@ export const deleteCategory = async (id: string) => {
   try {
     const res = await fetch(`${API_URL}/category/delete/${id}`, {
       method: "DELETE",
+      credentials: "include",
     });
 
     if (!res.ok) {

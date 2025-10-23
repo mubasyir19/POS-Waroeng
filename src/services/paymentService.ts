@@ -7,6 +7,7 @@ export const completePayment = async (orderId: string, input: PaymentForm) => {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(input),
+      credentials: "include",
     });
 
     const data = await res.json();
