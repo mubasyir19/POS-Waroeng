@@ -5,6 +5,7 @@ import React, { useCallback, useEffect, useState } from "react";
 import { formatPrice } from "@/helpers/formatPrice";
 import CartItemWrapper from "../molecules/CartItemWrapper";
 import { useCheckoutOrder } from "@/hooks/useOrder";
+import { useGetProfile } from "@/hooks/useUser";
 
 interface FormOrderProps {
   onProceed: (orderId: string) => void;
@@ -14,6 +15,7 @@ interface FormOrderProps {
 export default function FormOrder({ onProceed, resetSignal }: FormOrderProps) {
   const { items, clearOrder } = useOrderStore();
   const { handleNewCheckout } = useCheckoutOrder();
+  const { dataUser } = useGetProfile();
 
   const [type, setType] = useState<"DINE_IN" | "TAKE_AWAY" | "DELIVERY">(
     "DINE_IN",
@@ -40,7 +42,7 @@ export default function FormOrder({ onProceed, resetSignal }: FormOrderProps) {
     e.preventDefault();
 
     const checkoutData = {
-      waiterId: "a83e28d9-e2d4-4bd0-a2ce-d5e0cd3330a6",
+      waiterId: dataUser?.id ?? "",
       customer: customer,
       orderType: type,
       totalPrice: totalPrice,
