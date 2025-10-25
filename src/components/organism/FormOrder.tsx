@@ -52,7 +52,6 @@ export default function FormOrder({ onProceed, resetSignal }: FormOrderProps) {
     const res = await handleNewCheckout(checkoutData);
 
     if (res.code === "CREATED") {
-      alert("Checkout berhasil!");
       onProceed(res.data.id);
     }
   };
