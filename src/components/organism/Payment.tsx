@@ -9,7 +9,7 @@ import { toast } from "sonner";
 interface PaymentProps {
   orderId: string;
   onCancel: () => void;
-  onSuccess: () => void;
+  onSuccess: (orderId: string) => void;
 }
 
 export default function Payment({
@@ -81,7 +81,7 @@ export default function Payment({
       await handleCompletePayment(orderId, updatedForm);
       toast.success("Pembayaran selesai");
       if (typeof onSuccess === "function") {
-        onSuccess();
+        onSuccess(orderId);
       }
     } catch (error) {
       toast.error("Pembayaran gagal");

@@ -149,14 +149,11 @@ export default function ManagementProduct() {
         imageUrl: "", // atau null tergantung tipe kamu
       });
     } catch (error) {
-      console.log("(client) terjadi error", error);
       toast.error(`Gagal: ${(error as Error).message}`);
     }
   };
 
   const handleEditProduct = (product: Product) => {
-    console.log("Product yang akan diedit:", product);
-    console.log("Product ID:", product.id);
     setEditingProduct(product);
     setOpenEditDialog(true);
   };

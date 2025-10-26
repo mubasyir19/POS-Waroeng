@@ -1,5 +1,5 @@
 import { API_URL } from "@/utils/config";
-import { Order } from "@/types/order";
+import { CheckoutOrder } from "@/types/order";
 
 export const getDetailOrder = async (id: string) => {
   try {
@@ -20,7 +20,7 @@ export const getDetailOrder = async (id: string) => {
   }
 };
 
-export const checkoutOrder = async (input: Order) => {
+export const checkoutOrder = async (input: CheckoutOrder) => {
   try {
     const res = await fetch(`${API_URL}/order/checkout`, {
       method: "POST",

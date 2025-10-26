@@ -147,7 +147,6 @@ export function useEditProduct() {
       setData(res);
       return res;
     } catch (error) {
-      console.log("(hooks) terjadi error", error);
       setErrorEdit((error as Error).message);
     } finally {
       setEditLoading(false);
