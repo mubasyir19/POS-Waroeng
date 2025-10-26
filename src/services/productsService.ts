@@ -62,7 +62,6 @@ export const updateProduct = async (formData: FormData, id: string) => {
     const data = await res.json();
     return data.data;
   } catch (error) {
-    console.log("(service) terjadi error", error);
     throw new Error((error as Error).message || "Something went wrong");
   }
 };

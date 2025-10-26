@@ -3,7 +3,7 @@ import {
   deleteOrder,
   getDetailOrder,
 } from "@/services/orderService";
-import { Order } from "@/types/order";
+import { CheckoutOrder, Order } from "@/types/order";
 import { useEffect, useState } from "react";
 import { toast } from "sonner";
 
@@ -12,7 +12,7 @@ export function useCheckoutOrder() {
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
 
-  const handleNewCheckout = async (input: Order) => {
+  const handleNewCheckout = async (input: CheckoutOrder) => {
     setLoading(true);
     setError(null);
     try {

@@ -4,6 +4,8 @@ import CategoryTabs from "@/components/molecules/CategoryTabs";
 import ListMenu from "@/components/molecules/ListMenu";
 import FormOrder from "@/components/organism/FormOrder";
 import Payment from "@/components/organism/Payment";
+import ReceiptOrder from "@/components/organism/ReceiptOrder";
+import { getTodayDate } from "@/helpers/getToday";
 import { useDeleteOrder } from "@/hooks/useOrder";
 import { Search } from "lucide-react";
 import React, { useEffect, useState } from "react";
@@ -13,6 +15,12 @@ export default function HomePage() {
   const [continuePayment, setContinuePayment] = useState<boolean>(false);
   const [orderId, setOrderId] = useState<string | null>(null);
   const [resetFormOrderSignal, setResetFormOrderSignal] = useState(false);
+  const [showSuccessDialog, setShowSuccessDialog] = useState<boolean>(false);
+  const [successfulOrderId, setSuccessfulOrderId] = useState<string | null>(
+    null,
+  );
+  const [isProcessingPayment, setIsProcessingPayment] =
+    useState<boolean>(false);
   const { deleteOrder } = useDeleteOrder();
 
   useEffect(() => {
@@ -23,10 +31,14 @@ export default function HomePage() {
     }
   }, []);
 
-  const handleProceed = (id: string) => {
+  const handleProceed = async (id: string) => {
     setOrderId(id);
     localStorage.setItem("currentOrderId", id);
+
+    await new Promise((resolve) => setTimeout(resolve, 500));
+
     setContinuePayment(true);
+    setIsProcessingPayment(false);
   };
 
   const handleCancelProceed = (idOrder: string) => {
@@ -37,12 +49,13 @@ export default function HomePage() {
   };
 
   // dipanggil saat payment sukses
-  const handlePaymentSuccess = () => {
+  const handlePaymentSuccess = (successOrderId: string) => {
     setContinuePayment(false);
-    setOrderId(null);
+    setSuccessfulOrderId(successOrderId);
     localStorage.removeItem("currentOrderId");
+    setShowSuccessDialog(true);
 
-    // toggle signal agar FormOrder mereset dirinya
+    // toggle signal agar FormOrder ter reset
     setResetFormOrderSignal((s) => !s);
   };
 
@@ -54,7 +67,7 @@ export default function HomePage() {
             <h3 className="text-2xl font-semibold text-white">
               Warung Warungan
             </h3>
-            <p className="mt-1 text-base text-white">Tuesday, 21 May 2002</p>
+            <p className="mt-1 text-base text-white">{getTodayDate()}</p>
           </div>
           <div className="">
             <form>
@@ -86,7 +99,7 @@ export default function HomePage() {
           <Payment
             orderId={orderId}
             onCancel={() => handleCancelProceed(orderId)}
-            onSuccess={handlePaymentSuccess}
+            onSuccess={() => handlePaymentSuccess(orderId)}
           />
         )}
       </div>
@@ -94,8 +107,21 @@ export default function HomePage() {
         <FormOrder
           onProceed={(orderId) => handleProceed(orderId)}
           resetSignal={resetFormOrderSignal}
+          isProcessing={isProcessingPayment}
         />
       </div>
+      <ReceiptOrder
+        openReceipt={showSuccessDialog}
+        // onOpenChangeReceipt={setShowSuccessDialog}
+        onOpenChangeReceipt={(open) => {
+          setShowSuccessDialog(open);
+          if (!open) {
+            // Reset successfulOrderId ketika dialog ditutup
+            setSuccessfulOrderId(null);
+          }
+        }}
+        orderSuccess={successfulOrderId as string}
+      />
     </div>
   );
 }

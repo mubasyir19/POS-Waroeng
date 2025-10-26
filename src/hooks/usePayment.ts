@@ -1,6 +1,6 @@
-import { completePayment } from "@/services/paymentService";
-import { PaymentForm } from "@/types/payment";
-import { useState } from "react";
+import { completePayment, getDetailPayment } from "@/services/paymentService";
+import { PaymentData, PaymentForm } from "@/types/payment";
+import { useEffect, useState } from "react";
 
 export function useCompletePayment() {
   const [data, setData] = useState();
@@ -26,4 +26,43 @@ export function useCompletePayment() {
   };
 
   return { handleCompletePayment, data, loading, error };
+}
+
+export function usePaymentByOrderId(orderId: string) {
+  const [payment, setPayment] = useState<PaymentData | null>(null);
+  const [loading, setLoading] = useState<boolean>(false);
+  const [error, setError] = useState<string | null>(null);
+
+  useEffect(() => {
+    if (!orderId) {
+      setPayment(null);
+      return;
+    }
+
+    async function fetchPayment() {
+      setLoading(true);
+      setError(null);
+      try {
+        const res = await getDetailPayment(orderId);
+
+        if (res?.code !== "SUCCESS") {
+          throw new Error(res?.message || "Failed to fetch payment details");
+        }
+
+        if (res.data === null) {
+          throw new Error(`No payment record found for order: ${orderId}`);
+        }
+
+        setPayment(res.data);
+      } catch (error) {
+        setError((error as Error).message);
+      } finally {
+        setLoading(false);
+      }
+    }
+
+    fetchPayment();
+  }, [orderId]);
+
+  return { payment, loading, error };
 }
