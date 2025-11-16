@@ -1,8 +1,17 @@
+"use client";
+
+import TableReport from "@/components/molecules/TableReport";
+import { Badge } from "@/components/ui/badge";
+import { useListOrder } from "@/hooks/useOrder";
 import { ArrowDown, ArrowUp } from "lucide-react";
 import Image from "next/image";
 import React from "react";
 
 export default function DashboardPage() {
+  const { listOrder, loading: loadingListOrder, error } = useListOrder();
+
+  console.log("(client) list order", listOrder);
+
   return (
     <div className="flex gap-6 p-6">
       <div className="h-screen w-2/3">
@@ -103,6 +112,58 @@ export default function DashboardPage() {
               </span>
             </button>
           </div>
+          {/* Table Order Report */}
+          <TableReport orderList={listOrder} />
+          {/* <table className="mt-8 w-full">
+            <thead>
+              <tr className="border-b border-gray-200">
+                <th className="pb-3 text-sm font-semibold text-white">
+                  Tanggal
+                </th>
+                <th className="pb-3 text-sm font-semibold text-white">
+                  Customer
+                </th>
+                <th className="pb-3 text-sm font-semibold text-white">
+                  Total Payment
+                </th>
+                <th className="pb-3 text-sm font-semibold text-white">
+                  Status
+                </th>
+                <th className="pb-3 text-sm font-semibold text-white"></th>
+              </tr>
+            </thead>
+            <tbody className="">
+              <tr className="">
+                <td className="py-5 text-center text-sm text-white">
+                  {formatDateTime("2025-11-03 23:11:00.496 +0700")}
+                </td>
+                <td className="py-5 text-center text-sm text-white">Maheer</td>
+                <td className="py-5 text-center text-sm text-white">
+                  {formatPrice(18000)}
+                </td>
+                <td className="py-5 text-center text-sm text-white">
+                  <span className="rounded-full bg-emerald-500/30 px-2.5 py-1 text-center text-xs font-medium text-emerald-500">
+                    Complete
+                  </span>
+                </td>
+                <td className="py-5 text-center">
+                  <DropdownMenu>
+                    <DropdownMenuTrigger asChild>
+                      <EllipsisVertical className="size-4 text-white" />
+                    </DropdownMenuTrigger>
+                    <DropdownMenuContent className="bg-background">
+                      <DropdownMenuItem className="text-center text-sm text-white">
+                        Detail
+                      </DropdownMenuItem>
+                      <DropdownMenuItem className="text-center text-sm text-white">
+                        Lihat Struk
+                      </DropdownMenuItem>
+                    </DropdownMenuContent>
+                  </DropdownMenu>
+                </td>
+              </tr>
+            </tbody>
+          </table> */}
         </div>
       </div>
       <div className="h-screen w-1/3">

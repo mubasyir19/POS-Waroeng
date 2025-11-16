@@ -153,7 +153,7 @@ export default function FormOrder({
           </p>
         </div>
       ) : (
-        <div className="no-scrollbar my-4 h-96 space-y-5 overflow-x-hidden overflow-y-auto">
+        <div className="no-scrollbar my-4 h-fit space-y-5 overflow-x-hidden overflow-y-auto">
           {items.map((item) => (
             <CartItemWrapper key={item.productId} item={item} />
           ))}
