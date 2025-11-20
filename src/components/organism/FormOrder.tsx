@@ -153,7 +153,7 @@ export default function FormOrder({
           </p>
         </div>
       ) : (
-        <div className="no-scrollbar my-4 h-96 space-y-5 overflow-x-hidden overflow-y-auto">
+        <div className="no-scrollbar my-4 max-h-72 space-y-5 overflow-x-hidden overflow-y-auto">
           {items.map((item) => (
             <CartItemWrapper key={item.productId} item={item} />
           ))}
@@ -161,8 +161,10 @@ export default function FormOrder({
       )}
       <div className="space-y-2">
         <div className="flex items-center justify-between">
-          <p className="text-text-light text-sm">Discount</p>
-          <p className="text-base font-medium text-white">{formatPrice(0)}</p>
+          <p className="text-text-light text-sm">Total Item</p>
+          <p className="text-base font-medium text-white">
+            {items.length} item
+          </p>
         </div>
         <div className="flex items-center justify-between">
           <p className="text-text-light text-sm">Total</p>
