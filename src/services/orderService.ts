@@ -1,11 +1,14 @@
 import { API_URL } from "@/utils/config";
 import { CheckoutOrder } from "@/types/order";
 
-export const getListOrder = async () => {
+export const getListOrder = async (currentPage: number, limit: number) => {
   try {
-    const res = await fetch(`${API_URL}/order`, {
-      credentials: "include",
-    });
+    const res = await fetch(
+      `${API_URL}/order?page=${currentPage}&limit=${limit}`,
+      {
+        credentials: "include",
+      },
+    );
 
     const data = await res.json();
 
@@ -95,6 +98,24 @@ export const updateOrderStatus = async (
 
     if (!res.ok) {
       throw new Error(data.message || "Failed to update status");
+    }
+
+    return data;
+  } catch (error) {
+    throw new Error((error as Error).message || "Something went wrong");
+  }
+};
+
+export const getMostOrderedProducts = async () => {
+  try {
+    const res = await fetch(`${API_URL}/order/mostOrdered`, {
+      credentials: "include",
+    });
+
+    const data = await res.json();
+
+    if (!res.ok) {
+      throw new Error(data.message || "Failed to get most ordered products");
     }
 
     return data;

@@ -90,11 +90,15 @@ export default function ReceiptOrder({
               <>
                 <div className="flex items-center justify-between">
                   <p className="text-base text-white">Bayar</p>
-                  <p className="text-base text-white">{payment?.paidAmount}</p>
+                  <p className="text-base text-white">
+                    {formatPrice(payment?.paidAmount as number)}
+                  </p>
                 </div>
                 <div className="flex items-center justify-between">
                   <p className="text-base text-white">Kembalian</p>
-                  <p className="text-base text-white">{payment?.change}</p>
+                  <p className="text-base text-white">
+                    {formatPrice(payment?.change as number)}
+                  </p>
                 </div>
               </>
             )}

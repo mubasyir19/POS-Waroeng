@@ -66,3 +66,25 @@ export interface OrderReport {
   updatedAt: string;
   payment: PaymentData;
 }
+
+export interface PaginationMeta {
+  currentPage: number;
+  itemsPerPage: number;
+  totalItems: number;
+  totalPages: number;
+  hasNextPage: boolean;
+  hasPrevPage: boolean;
+}
+
+export interface OrderReportResponse {
+  code: string;
+  message: string;
+  data: OrderReport[];
+  meta: PaginationMeta;
+}
+
+export interface MostOrderedProducts {
+  productId: string;
+  totalOrdered: number;
+  product: Product;
+}

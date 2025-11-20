@@ -3,10 +3,17 @@ import {
   deleteOrder,
   getDetailOrder,
   getListOrder,
+  getMostOrderedProducts,
 } from "@/services/orderService";
-import { CheckoutOrder, Order, OrderReport } from "@/types/order";
+import {
+  CheckoutOrder,
+  MostOrderedProducts,
+  Order,
+  OrderReportResponse,
+} from "@/types/order";
 import { useEffect, useState } from "react";
 import { toast } from "sonner";
+import { usePagination } from "./usePagination";
 
 export function useCheckoutOrder() {
   const [data, setData] = useState<Order | null>(null);
@@ -62,7 +69,8 @@ export function useOrderById(id: string) {
 }
 
 export function useListOrder() {
-  const [listOrder, setListOrder] = useState<OrderReport[]>([]);
+  const { currentPage, limit } = usePagination();
+  const [listOrder, setListOrder] = useState<OrderReportResponse | null>(null);
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
 
@@ -71,12 +79,12 @@ export function useListOrder() {
       setLoading(true);
       setError(null);
       try {
-        const res = await getListOrder();
+        const res = await getListOrder(currentPage, limit);
 
         if (res.code !== "SUCCESS")
           throw new Error("Failed to fetch list order");
 
-        setListOrder(res.data);
+        setListOrder(res);
       } catch (error) {
         setError((error as Error).message);
       } finally {
@@ -85,7 +93,7 @@ export function useListOrder() {
     }
 
     fetchListOrder();
-  }, []);
+  }, [currentPage, limit]);
 
   return { listOrder, loading, error };
 }
@@ -119,4 +127,37 @@ export function useDeleteOrder() {
     error,
     success,
   };
+}
+
+export function useMostOrderedProducts() {
+  const [mostProducts, setMostProducts] = useState<
+    MostOrderedProducts[] | null
+  >(null);
+  const [loading, setLoading] = useState<boolean>(false);
+  const [error, setError] = useState<string | null>(null);
+
+  useEffect(() => {
+    async function fetchData() {
+      setLoading(true);
+      setError(null);
+      try {
+        const res = await getMostOrderedProducts();
+
+        if (res.code !== "SUCCESS")
+          throw new Error("Failed to fetch most ordered product");
+
+        setMostProducts(res.data);
+
+        return res.data;
+      } catch (error) {
+        setError((error as Error).message);
+      } finally {
+        setLoading(false);
+      }
+    }
+
+    fetchData();
+  }, []);
+
+  return { mostProducts, loading, error };
 }
