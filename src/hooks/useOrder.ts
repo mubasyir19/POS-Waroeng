@@ -2,8 +2,9 @@ import {
   checkoutOrder,
   deleteOrder,
   getDetailOrder,
+  getListOrder,
 } from "@/services/orderService";
-import { CheckoutOrder, Order } from "@/types/order";
+import { CheckoutOrder, Order, OrderReport } from "@/types/order";
 import { useEffect, useState } from "react";
 import { toast } from "sonner";
 
@@ -58,6 +59,35 @@ export function useOrderById(id: string) {
   }, [id]);
 
   return { order, loading, error };
+}
+
+export function useListOrder() {
+  const [listOrder, setListOrder] = useState<OrderReport[]>([]);
+  const [loading, setLoading] = useState<boolean>(false);
+  const [error, setError] = useState<string | null>(null);
+
+  useEffect(() => {
+    async function fetchListOrder() {
+      setLoading(true);
+      setError(null);
+      try {
+        const res = await getListOrder();
+
+        if (res.code !== "SUCCESS")
+          throw new Error("Failed to fetch list order");
+
+        setListOrder(res.data);
+      } catch (error) {
+        setError((error as Error).message);
+      } finally {
+        setLoading(false);
+      }
+    }
+
+    fetchListOrder();
+  }, []);
+
+  return { listOrder, loading, error };
 }
 
 export function useDeleteOrder() {

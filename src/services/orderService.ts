@@ -1,6 +1,24 @@
 import { API_URL } from "@/utils/config";
 import { CheckoutOrder } from "@/types/order";
 
+export const getListOrder = async () => {
+  try {
+    const res = await fetch(`${API_URL}/order`, {
+      credentials: "include",
+    });
+
+    const data = await res.json();
+
+    if (!res.ok) {
+      throw new Error(data.message || "Failed get list order");
+    }
+
+    return data;
+  } catch (error) {
+    throw new Error((error as Error).message || "Something went wrong");
+  }
+};
+
 export const getDetailOrder = async (id: string) => {
   try {
     const res = await fetch(`${API_URL}/order/${id}`, {
@@ -11,7 +29,7 @@ export const getDetailOrder = async (id: string) => {
     const data = await res.json();
 
     if (!res.ok) {
-      throw new Error(data.message || "Failed to add data");
+      throw new Error(data.message || "Failed get detail order");
     }
 
     return data;
