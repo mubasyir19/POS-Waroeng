@@ -2,6 +2,8 @@
 
 **POS Waroeng** is a modern Point of Sales system built for small businesses such as street food stalls and local shops. It provides simple yet powerful tools for managing products, handling transactions with ease, and tracking sales reports efficiently.
 
+[Backend POS-Waroeng](https://github.com/mubasyir19/Backend-Waroeng)
+
 ---
 
 ## 🧩 Key Features
