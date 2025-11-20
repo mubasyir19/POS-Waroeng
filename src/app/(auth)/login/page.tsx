@@ -12,8 +12,8 @@ export default function Loginpage() {
   const router = useRouter();
   const { actionLogin } = useLoginUser();
   const [formLogin, setFormLogin] = useState<FormLogin>({
-    username: "",
-    password: "",
+    username: "adminPOS",
+    password: "admin123",
   });
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
