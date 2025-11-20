@@ -3,6 +3,7 @@ import { useOrderById } from "@/hooks/useOrder";
 import { useCompletePayment } from "@/hooks/usePayment";
 import { PaymentForm } from "@/types/payment";
 import { Banknote, Landmark, QrCode, Smartphone } from "lucide-react";
+import Image from "next/image";
 import React, { useEffect, useState } from "react";
 import { toast } from "sonner";
 
@@ -183,19 +184,17 @@ export default function Payment({
           <div className="">
             <p className="text-white">Silakan scan qrcode berikut</p>
             <div className="mt-2">
-              <div className="mx-auto size-52 bg-gray-500"></div>
+              <Image
+                src={`/images/dummy-qr.png`}
+                width={300}
+                height={300}
+                alt="dummy-qr"
+                className="mx-auto size-52"
+              />
             </div>
-            {/* <div className="mt-10 flex items-stretch gap-4">
-              <button
-                onClick={onCancel}
-                className="border-primary text-primary w-full cursor-pointer rounded-md border bg-transparent py-1.5 text-center font-medium"
-              >
-                Cancel
-              </button>
-              <button className="bg-primary/80 hover:bg-primary w-full cursor-pointer rounded-md py-1.5 text-center font-medium text-white">
-                Tandai Selesai
-              </button>
-            </div> */}
+            <p className="text-primary mt-2 text-xs">
+              *QR tersebut masih dummy, silakan lanjut
+            </p>
           </div>
         )}
         {paymentMethod === "TRANSFER_BANK" && (
