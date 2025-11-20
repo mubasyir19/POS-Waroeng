@@ -82,3 +82,9 @@ export interface OrderReportResponse {
   data: OrderReport[];
   meta: PaginationMeta;
 }
+
+export interface MostOrderedProducts {
+  productId: string;
+  totalOrdered: number;
+  product: Product;
+}

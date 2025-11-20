@@ -105,3 +105,21 @@ export const updateOrderStatus = async (
     throw new Error((error as Error).message || "Something went wrong");
   }
 };
+
+export const getMostOrderedProducts = async () => {
+  try {
+    const res = await fetch(`${API_URL}/order/mostOrdered`, {
+      credentials: "include",
+    });
+
+    const data = await res.json();
+
+    if (!res.ok) {
+      throw new Error(data.message || "Failed to get most ordered products");
+    }
+
+    return data;
+  } catch (error) {
+    throw new Error((error as Error).message || "Something went wrong");
+  }
+};

@@ -3,11 +3,12 @@ import {
   deleteOrder,
   getDetailOrder,
   getListOrder,
+  getMostOrderedProducts,
 } from "@/services/orderService";
 import {
   CheckoutOrder,
+  MostOrderedProducts,
   Order,
-  OrderReport,
   OrderReportResponse,
 } from "@/types/order";
 import { useEffect, useState } from "react";
@@ -126,4 +127,37 @@ export function useDeleteOrder() {
     error,
     success,
   };
+}
+
+export function useMostOrderedProducts() {
+  const [mostProducts, setMostProducts] = useState<
+    MostOrderedProducts[] | null
+  >(null);
+  const [loading, setLoading] = useState<boolean>(false);
+  const [error, setError] = useState<string | null>(null);
+
+  useEffect(() => {
+    async function fetchData() {
+      setLoading(true);
+      setError(null);
+      try {
+        const res = await getMostOrderedProducts();
+
+        if (res.code !== "SUCCESS")
+          throw new Error("Failed to fetch most ordered product");
+
+        setMostProducts(res.data);
+
+        return res.data;
+      } catch (error) {
+        setError((error as Error).message);
+      } finally {
+        setLoading(false);
+      }
+    }
+
+    fetchData();
+  }, []);
+
+  return { mostProducts, loading, error };
 }

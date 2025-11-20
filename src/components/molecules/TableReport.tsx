@@ -1,6 +1,6 @@
 import { formatDateTime } from "@/helpers/formatDate";
 import { formatPrice } from "@/helpers/formatPrice";
-import React from "react";
+import React, { useState } from "react";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -10,6 +10,7 @@ import {
 import { ChevronLeft, ChevronRight, EllipsisVertical } from "lucide-react";
 import { OrderReport, PaginationMeta } from "@/types/order";
 import { usePagination } from "@/hooks/usePagination";
+import ReceiptOrder from "../organism/ReceiptOrder";
 
 interface TableReportProps {
   orderList: OrderReport[];
@@ -18,6 +19,10 @@ interface TableReportProps {
 
 export default function TableReport({ orderList, meta }: TableReportProps) {
   const { currentPage, goToPage } = usePagination();
+
+  // const [showSuccessDialog, setShowSuccessDialog] = useState<boolean>(false);
+  const [openReceipt, setOpenReceipt] = useState<boolean>(false);
+  const [selectedOrderId, setSelectedOrderId] = useState<string>("");
 
   const handlePrevious = () => {
     if (meta.hasPrevPage) {
@@ -55,6 +60,11 @@ export default function TableReport({ orderList, meta }: TableReportProps) {
     return pages;
   };
 
+  const handleOpenReceipt = (orderId: string) => {
+    setSelectedOrderId(orderId);
+    setOpenReceipt(true);
+  };
+
   return (
     <>
       <table className="mt-8 w-full">
@@ -74,7 +84,7 @@ export default function TableReport({ orderList, meta }: TableReportProps) {
             orderList.map((order, i) => (
               <tr key={i} className="">
                 <td className="py-5 text-center text-sm text-white">
-                  {formatDateTime("2025-11-03 23:11:00.496 +0700")}
+                  {formatDateTime(order.createdAt)}
                 </td>
                 <td className="py-5 text-center text-sm text-white">
                   {order.customer}
@@ -96,7 +106,10 @@ export default function TableReport({ orderList, meta }: TableReportProps) {
                       <DropdownMenuItem className="text-center text-sm text-white">
                         Detail
                       </DropdownMenuItem>
-                      <DropdownMenuItem className="text-center text-sm text-white">
+                      <DropdownMenuItem
+                        className="cursor-pointer text-center text-sm text-white"
+                        onClick={() => handleOpenReceipt(order.id)}
+                      >
                         Lihat Struk
                       </DropdownMenuItem>
                     </DropdownMenuContent>
@@ -162,6 +175,11 @@ export default function TableReport({ orderList, meta }: TableReportProps) {
           </div>
         </div>
       )}
+      <ReceiptOrder
+        orderSuccess={selectedOrderId}
+        openReceipt={openReceipt}
+        onOpenChangeReceipt={setOpenReceipt}
+      />
     </>
   );
 }
