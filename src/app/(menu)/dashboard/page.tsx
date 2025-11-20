@@ -2,6 +2,7 @@
 
 import TableReport from "@/components/molecules/TableReport";
 import { Badge } from "@/components/ui/badge";
+import { formatPrice } from "@/helpers/formatPrice";
 import { useListOrder } from "@/hooks/useOrder";
 import { ArrowDown, ArrowUp } from "lucide-react";
 import Image from "next/image";
@@ -10,11 +11,11 @@ import React from "react";
 export default function DashboardPage() {
   const { listOrder, loading: loadingListOrder, error } = useListOrder();
 
-  console.log("(client) list order", listOrder);
+  console.log("(client) lempar ke tabel", listOrder);
 
   return (
-    <div className="flex gap-6 p-6">
-      <div className="h-screen w-2/3">
+    <div className="flex h-screen gap-6 p-6">
+      <div className="flex w-2/3 flex-col">
         <div className="border-b-2 border-[#393C49] pb-6">
           <h1 className="text-3xl font-semibold text-white">Dashboard</h1>
           <p className="mt-1 text-base text-[#ABBBC2]">Tuesday, 2 Feb 2021</p>
@@ -39,7 +40,9 @@ export default function DashboardPage() {
               </div>
             </div>
             <div className="mt-2">
-              <h1 className="text-3xl font-semibold text-white">$10,243.00</h1>
+              <h1 className="text-3xl font-semibold text-white">
+                {formatPrice(17243000)}
+              </h1>
               <p className="mt-2 text-sm font-medium text-[#ABBBC2]">
                 Total Revenue
               </p>
@@ -96,7 +99,7 @@ export default function DashboardPage() {
             </div>
           </div>
         </div>
-        <div className="bg-background mt-6 rounded-lg px-4 py-6">
+        <div className="bg-background mt-6 flex-1 rounded-lg px-4 py-6">
           <div className="flex items-center justify-between">
             <h2 className="text-xl font-semibold text-white">Order Report</h2>
             <button className="flex items-center gap-2.5 rounded-lg border-2 border-[#393C49] px-4 py-3">
@@ -113,57 +116,19 @@ export default function DashboardPage() {
             </button>
           </div>
           {/* Table Order Report */}
-          <TableReport orderList={listOrder} />
-          {/* <table className="mt-8 w-full">
-            <thead>
-              <tr className="border-b border-gray-200">
-                <th className="pb-3 text-sm font-semibold text-white">
-                  Tanggal
-                </th>
-                <th className="pb-3 text-sm font-semibold text-white">
-                  Customer
-                </th>
-                <th className="pb-3 text-sm font-semibold text-white">
-                  Total Payment
-                </th>
-                <th className="pb-3 text-sm font-semibold text-white">
-                  Status
-                </th>
-                <th className="pb-3 text-sm font-semibold text-white"></th>
-              </tr>
-            </thead>
-            <tbody className="">
-              <tr className="">
-                <td className="py-5 text-center text-sm text-white">
-                  {formatDateTime("2025-11-03 23:11:00.496 +0700")}
-                </td>
-                <td className="py-5 text-center text-sm text-white">Maheer</td>
-                <td className="py-5 text-center text-sm text-white">
-                  {formatPrice(18000)}
-                </td>
-                <td className="py-5 text-center text-sm text-white">
-                  <span className="rounded-full bg-emerald-500/30 px-2.5 py-1 text-center text-xs font-medium text-emerald-500">
-                    Complete
-                  </span>
-                </td>
-                <td className="py-5 text-center">
-                  <DropdownMenu>
-                    <DropdownMenuTrigger asChild>
-                      <EllipsisVertical className="size-4 text-white" />
-                    </DropdownMenuTrigger>
-                    <DropdownMenuContent className="bg-background">
-                      <DropdownMenuItem className="text-center text-sm text-white">
-                        Detail
-                      </DropdownMenuItem>
-                      <DropdownMenuItem className="text-center text-sm text-white">
-                        Lihat Struk
-                      </DropdownMenuItem>
-                    </DropdownMenuContent>
-                  </DropdownMenu>
-                </td>
-              </tr>
-            </tbody>
-          </table> */}
+          <TableReport
+            orderList={listOrder?.data || []}
+            meta={
+              listOrder?.meta || {
+                currentPage: 1,
+                itemsPerPage: 10,
+                totalItems: 0,
+                totalPages: 0,
+                hasNextPage: false,
+                hasPrevPage: false,
+              }
+            }
+          />
         </div>
       </div>
       <div className="h-screen w-1/3">

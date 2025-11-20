@@ -1,11 +1,14 @@
 import { API_URL } from "@/utils/config";
 import { CheckoutOrder } from "@/types/order";
 
-export const getListOrder = async () => {
+export const getListOrder = async (currentPage: number, limit: number) => {
   try {
-    const res = await fetch(`${API_URL}/order`, {
-      credentials: "include",
-    });
+    const res = await fetch(
+      `${API_URL}/order?page=${currentPage}&limit=${limit}`,
+      {
+        credentials: "include",
+      },
+    );
 
     const data = await res.json();
 
